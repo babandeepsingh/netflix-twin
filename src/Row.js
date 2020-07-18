@@ -30,6 +30,9 @@ function Row({ title, fetchUrl, isLargeRow }) {
         if (trailerUrl) {
             setTrailerUrl("");
         }
+        else if(error){
+            setError("")
+        }
         else {
             movieTrailer(movie?.name || movie?.title || movie?.original_name || "")
                 .then(url => {
