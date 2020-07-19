@@ -28,6 +28,9 @@ function Banner() {
             setTrailerUrl("");
             setButton('Play');
         }
+        else if(error){
+            setError('')
+        }
         else {
             movieTrailer(movie?.name || movie?.title || movie?.original_name || "")
                 .then(url => {
