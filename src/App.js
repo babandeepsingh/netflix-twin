@@ -18,6 +18,8 @@ function App() {
       <Row title="Horror Movies" fetchUrl={requests.fetchHorrorMovies} />
       <Row title="Romantic Movies" fetchUrl={requests.fetchRomancdMovies} />
       <Row title="Documentary" fetchUrl={requests.fetchDocumentaries} />
+      <div className="copyright">&copy;Babandeep Singh - API Support TMDB</div>
+
     </div>
   );
 }

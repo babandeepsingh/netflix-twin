@@ -8,6 +8,9 @@ function Row({ title, fetchUrl, isLargeRow }) {
     const [movies, setMovies] = useState([]);
     const [trailerUrl, setTrailerUrl] = useState("");
     const [error, setError] = useState("");
+    const [vote, setVote] = useState(0);
+    const [adult, setAdult] = useState();
+
     useEffect(() => {
         async function fetchData() {
             const request = await axios.get(fetchUrl);
@@ -33,12 +36,20 @@ function Row({ title, fetchUrl, isLargeRow }) {
         else if(error){
             setError("")
         }
+        else if(vote){
+            setVote(0)
+        }
+        else if(adult){
+            setAdult()
+        }
         else {
             movieTrailer(movie?.name || movie?.title || movie?.original_name || "")
                 .then(url => {
                     console.log(url)
                     const urlParams = new URLSearchParams(new URL(url).search);
                     setTrailerUrl(urlParams.get('v'));
+                    setVote(movie.vote_average);
+                    setAdult(movie.adult)
                     console.log(urlParams.get('v'))
                 }).catch(err => { console.log(err); setError(encodeURI(`https://www.youtube.com/results?search_query=${movie?.name || movie?.title || movie?.original_name}`)) })
         }
@@ -60,6 +71,7 @@ function Row({ title, fetchUrl, isLargeRow }) {
             <div className="youtube__banner">
                 {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
                 {error && <div className="error__messages"> Sorry we couldn't find exact match. <a href={error} target="_blank">Click here to redirect direct to youtube</a></div>}
+                <div className="video__detaials">{vote!==0 && <div>Rating: {vote}/10 Audiance: {adult? 'A' : 'U/A'}</div>}</div>
             </div>
         </div>
     )
