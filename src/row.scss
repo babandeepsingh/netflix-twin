@@ -9,6 +9,22 @@
         &::-webkit-scrollbar{
             display: none;
         }
+        .mobile-only{
+            display: none;
+        }
+        .row_desktop{
+            display: flex;
+        }
+        @media only screen and (max-width: 767px){
+            .row_desktop{
+                display: none;
+            }
+        }
+        @media only screen and (max-width: 767px){
+            .mobile-only{
+                display: flex;
+            }
+        }
         .row__poster{
             object-fit: contain;
             width: 100%;
