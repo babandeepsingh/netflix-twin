@@ -3,18 +3,23 @@ import axios from './axios';
 import requests from './requests';
 import YouTube from 'react-youtube';
 import movieTrailer from "movie-trailer";
+import ReactPlaceholder from "react-placeholder";
+import "react-placeholder/lib/reactPlaceholder.css";
 import './banner.scss';
 function Banner() {
     const [movie, setMovie] = useState([])
     const [trailerUrl, setTrailerUrl] = useState("");
     const [button, setButton] = useState("Play")
     const [error, setError] = useState("");
-
+    const [ready, setReady] = useState(false)
     useEffect(() => {
         async function fetchData() {
             const request = await axios.get(requests.fetchNetflixOriginal)
             console.log(request.data.results[Math.floor(Math.random() * request.data.results.length - 1)])
             setMovie(request.data.results[Math.floor(Math.random() * request.data.results.length - 1)])
+            setTimeout(()=>{
+                setReady(true)
+            },2500)
             return request
         }
         fetchData()
@@ -29,7 +34,7 @@ function Banner() {
             setButton('Play');
         }
         else if(error){
-            setError('')
+            setError(error)
         }
         else {
             movieTrailer(movie?.name || movie?.title || movie?.original_name || "")
@@ -51,7 +56,8 @@ function Banner() {
         }
     }
     return (
-        <header className="banner"
+        <ReactPlaceholder style={{ padding: '50px 30px'}} ready={ready} showLoadingAnimation={true} type='media' rows={6}>
+        {ready && movie && <header className="banner"
             style={{
                 backgroundSize: "cover",
                 backgroundImage: `url("https://image.tmdb.org/t/p/original/${movie?.backdrop_path}")`,
@@ -82,7 +88,8 @@ function Banner() {
             {/* div>2button */}
             {/* description */}
 
-        </header>
+        </header>}
+        </ReactPlaceholder>
     )
 }
 
